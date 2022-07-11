@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# REQUIRE: networking
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="sfld"
+desc="Sufflain timetables tracker service"
+rcvar="${name}_enable"
+
+load_rc_config "$name"
+
+sfld_logfile="/var/log/${name}.log"
+sfld_pidfile="/var/run/${name}.pid"
+
+required_files="/root/.config/sufflain-config.json"
+
+command="/usr/sbin/daemon"
+pidfile="$sfld_pidfile"
+start_cmd="sfld_start"
+
+sfld_start()
+{
+    /usr/sbin/daemon -f -r -P ${sfld_pidfile} -o ${sfld_logfile} -t ${name} /usr/local/bin/sfl -t
+}
+
+run_rc_command "$1"
