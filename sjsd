@@ -30,7 +30,20 @@ sjsd_start()
 
 sjsd_stop()
 {
+    NODE_PIDS=`get_pids`
+
+    # Kill the daemon
     kill `cat $sjsd_pidfile`
+
+    # Kill node child processes
+    for PID in $NODE_PIDS ; do
+    	kill $PID
+    done
+}
+
+get_pids()
+{
+    echo `ps -xwwU web-service | grep --color sufflain-js | cut -d ' ' -f 1 | tr '\n' ' '`
 }
 
 run_rc_command "$1"
