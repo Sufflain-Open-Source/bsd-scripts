@@ -12,7 +12,7 @@ sjsd_user="web-service"
 
 load_rc_config "$name"
 
-sjsd_env="PATH=$PATH:/usr/local/bin"
+sjsd_env="BABEL_DISABLE_CACHE=1 PATH=$PATH:/usr/local/bin"
 sjsd_logfile="/var/log/${name}.log"
 sjsd_pidfile="/var/run/${name}.pid"
 
@@ -25,7 +25,6 @@ stop_cmd="sjsd_stop"
 
 sjsd_start()
 {
-    echo $PATH
     cd $workdir ; /usr/sbin/daemon -f -r -P ${sjsd_pidfile} -o ${sjsd_logfile} -t ${name} /usr/local/bin/npm run prod
 }
 
